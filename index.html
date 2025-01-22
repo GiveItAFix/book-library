@@ -49,18 +49,18 @@
         const bookContainer = document.getElementById('book-container');
         bookContainer.innerHTML = '';
 
-        books.forEach(book => {
-          const bookDiv = document.createElement('div');
-          bookDiv.className = 'book';
-          bookDiv.innerHTML = `
-            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://placekitten.com/150/150
-';"
->
-            <h3>${book.title}</h3>
-            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-          `;
-          bookContainer.appendChild(bookDiv);
-        });
+  books.forEach(book => {
+  console.log(book.imageUrl); // Debug: Log each image URL
+  const bookDiv = document.createElement('div');
+  bookDiv.className = 'book';
+  bookDiv.innerHTML = `
+    <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://via.placeholder.com/150';">
+    <h3>${book.title}</h3>
+    <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+  `;
+  bookContainer.appendChild(bookDiv);
+});
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
