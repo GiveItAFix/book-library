@@ -39,20 +39,24 @@
   </div>
 
   <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbwwfDxCBwM11Lpv6MoleaMTjEEJYLg9wrDeePDpCgjYsak_2v4Y8kAdXnC3irb2voEb/exec'; // Replace with your Web App URL
+    // Replace with your Google Apps Script Web App URL
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbwwfDxCBwM11Lpv6MoleaMTjEEJYLg9wrDeePDpCgjYsak_2v4Y8kAdXnC3irb2voEb/exec';
 
     async function fetchBooks() {
       try {
+        // Fetch data from the Web App
         const response = await fetch(apiUrl);
         const books = await response.json();
+        console.log(books); // Debug: log fetched data
         const bookContainer = document.getElementById('book-container');
         bookContainer.innerHTML = '';
 
+        // Loop through each book and create its card
         books.forEach(book => {
           const bookDiv = document.createElement('div');
           bookDiv.className = 'book';
           bookDiv.innerHTML = `
-            <img src="${book.imageUrl}" alt="${book.title}">
+            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://via.placeholder.com/150';">
             <h3>${book.title}</h3>
             <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
           `;
@@ -63,6 +67,7 @@
       }
     }
 
+    // Fetch books on page load
     fetchBooks();
   </script>
 </body>
