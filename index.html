@@ -39,28 +39,27 @@
   </div>
 
   <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbwVjoZx2B_i-ua05cwlGgx3oMWTMJ6wuehAPKYcW8DkitNJbOCNNkrae_pa4hfPS7jt/exec'; // Replace with your Web App URL
+    const apiUrl = 'YOUR_WEB_APP_URL'; // Replace with your Web App URL
 
     async function fetchBooks() {
       try {
         const response = await fetch(apiUrl);
         const books = await response.json();
-        console.log(books); // Debug: log fetched data
+        console.log("Fetched books:", books); // Log all books for debugging
         const bookContainer = document.getElementById('book-container');
         bookContainer.innerHTML = '';
 
-  books.forEach(book => {
-  console.log(book.imageUrl); // Debug: Log each image URL
-  const bookDiv = document.createElement('div');
-  bookDiv.className = 'book';
-  bookDiv.innerHTML = `
-    <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://picsum.photos/150/150';">
-    <h3>${book.title}</h3>
-    <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-  `;
-  bookContainer.appendChild(bookDiv);
-});
-
+        books.forEach(book => {
+          console.log("Image URL being assigned:", book.imageUrl); // Log each image URL
+          const bookDiv = document.createElement('div');
+          bookDiv.className = 'book';
+          bookDiv.innerHTML = `
+            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://picsum.photos/150/150';">
+            <h3>${book.title}</h3>
+            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+          `;
+          bookContainer.appendChild(bookDiv);
+        });
       } catch (error) {
         console.error('Error fetching data:', error);
       }
