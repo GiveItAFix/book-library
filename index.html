@@ -53,7 +53,9 @@
           const bookDiv = document.createElement('div');
           bookDiv.className = 'book';
           bookDiv.innerHTML = `
-            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://via.placeholder.com/150';">
+            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://placekitten.com/150/150
+';"
+>
             <h3>${book.title}</h3>
             <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
           `;
