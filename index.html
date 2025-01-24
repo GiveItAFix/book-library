@@ -43,21 +43,42 @@
 
     async function fetchBooks() {
       try {
+        // Fetch data from the API
         const response = await fetch(apiUrl);
         const books = await response.json();
-        console.log("Fetched books:", books); // Log all books for debugging
+        console.log("Fetched books:", books); // Debug fetched data
+
         const bookContainer = document.getElementById('book-container');
-        bookContainer.innerHTML = '';
+        bookContainer.innerHTML = ''; // Clear existing content
 
         books.forEach(book => {
-          console.log("Image URL being assigned:", book.imageUrl); // Log each image URL
+          console.log("Image URL being assigned:", book.imageUrl); // Debug each image URL
+          
+          // Create a container for each book
           const bookDiv = document.createElement('div');
           bookDiv.className = 'book';
-          bookDiv.innerHTML = `
-            <img src="${book.imageUrl}" alt="${book.title}" onerror="https://picsum.photos/150/150';">
-            <h3>${book.title}</h3>
-            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-          `;
+
+          // Render book content
+          const imgElement = document.createElement('img');
+          imgElement.src = book.imageUrl;
+          imgElement.alt = book.title;
+          imgElement.onerror = () => {
+            imgElement.src = 'https://picsum.photos/150/150'; // Fallback image
+          };
+
+          const titleElement = document.createElement('h3');
+          titleElement.textContent = book.title;
+
+          const statusElement = document.createElement('p');
+          statusElement.textContent = book.availability;
+          statusElement.className = `status ${book.availability === 'Available' ? '' : 'unavailable'}`;
+
+          // Append elements to the book container
+          bookDiv.appendChild(imgElement);
+          bookDiv.appendChild(titleElement);
+          bookDiv.appendChild(statusElement);
+
+          // Add the bookDiv to the main container
           bookContainer.appendChild(bookDiv);
         });
       } catch (error) {
@@ -65,6 +86,7 @@
       }
     }
 
+    // Fetch books on page load
     fetchBooks();
   </script>
 </body>
