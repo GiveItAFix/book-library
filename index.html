@@ -55,15 +55,18 @@ async function fetchBooks() {
     }
 
     const books = await response.json();
-    console.log("Fetched books:", books);
+    console.log("Fetched books from API:", books); // Debug: Log the full response
+
     const bookContainer = document.getElementById('book-container');
     bookContainer.innerHTML = '';
 
     books.forEach(book => {
+      console.log("Processing book:", book); // Debug: Log each book object
+
       const bookDiv = document.createElement('div');
       bookDiv.className = 'book';
       bookDiv.innerHTML = `
-        <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://placehold.co/150x150';">
+        <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://picsum.photos/150/150';">
         <h3>${book.title}</h3>
         <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
       `;
@@ -78,6 +81,8 @@ fetchBooks();
   </script>
 </body>
 </html>
+
+
 
 
 
