@@ -18,13 +18,10 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .book .image {
-      width: 100%;
-      height: 300px; /* Adjust height as needed */
-      background-size: cover;
-      background-position: center;
+    canvas {
+      display: block;
+      margin: 0 auto 10px;
       border-radius: 5px;
-      margin-bottom: 10px;
     }
     .status {
       font-weight: bold;
@@ -67,9 +64,35 @@
           const bookDiv = document.createElement('div');
           bookDiv.className = 'book';
 
-          // Use background-image for the book cover
-          bookDiv.innerHTML = `
-            <div class="image" style="background-image: url('${book.imageUrl}');"></div>
+          // Create a canvas element for the book image
+          const canvas = document.createElement('canvas');
+          canvas.width = 200; // Set canvas width
+          canvas.height = 300; // Set canvas height
+
+          const ctx = canvas.getContext('2d');
+          const image = new Image();
+
+          // Add crossOrigin to avoid CORS issues
+          image.crossOrigin = 'anonymous';
+          image.src = book.imageUrl;
+
+          // Draw the image onto the canvas when it loads
+          image.onload = () => {
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+          };
+
+          // Fallback for error loading the image
+          image.onerror = () => {
+            ctx.fillStyle = '#ccc';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText('Image Not Available', 20, canvas.height / 2);
+          };
+
+          // Add the canvas and other details to the book div
+          bookDiv.appendChild(canvas);
+          bookDiv.innerHTML += `
             <h3>${book.title}</h3>
             <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
           `;
@@ -84,3 +107,4 @@
   </script>
 </body>
 </html>
+
