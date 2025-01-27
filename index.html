@@ -18,10 +18,13 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .book img {
-      max-width: 100%;
-      height: auto;
+    .book .image {
+      width: 100%;
+      height: 300px; /* Adjust height as needed */
+      background-size: cover;
+      background-position: center;
       border-radius: 5px;
+      margin-bottom: 10px;
     }
     .status {
       font-weight: bold;
@@ -39,45 +42,45 @@
   </div>
 
   <script>
-   const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
 
-async function fetchBooks() {
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
+    async function fetchBooks() {
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const books = await response.json();
+        console.log("Fetched books from API:", books);
+
+        const bookContainer = document.getElementById('book-container');
+        bookContainer.innerHTML = '';
+
+        books.forEach(book => {
+          const bookDiv = document.createElement('div');
+          bookDiv.className = 'book';
+
+          // Use background-image for the book cover
+          bookDiv.innerHTML = `
+            <div class="image" style="background-image: url('${book.imageUrl}');"></div>
+            <h3>${book.title}</h3>
+            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+          `;
+          bookContainer.appendChild(bookDiv);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const books = await response.json();
-    console.log("Fetched books from API:", books);
-
-    const bookContainer = document.getElementById('book-container');
-    bookContainer.innerHTML = '';
-
-    books.forEach(book => {
-      const bookDiv = document.createElement('div');
-      bookDiv.className = 'book';
-      bookDiv.innerHTML = `
-        <img src="${book.imageUrl}" alt="${book.title}">
-        <h3>${book.title}</h3>
-        <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-      `;
-      bookContainer.appendChild(bookDiv);
-    });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
-
-fetchBooks();
-
+    fetchBooks();
   </script>
 </body>
 </html>
-
