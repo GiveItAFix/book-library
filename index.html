@@ -1,51 +1,12 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Modal</title>
-    <style>
-        /* Modal styles */
-        #imageModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-        #imageModal img {
-            max-width: 90%;
-            max-height: 90%;
-        }
-    </style>
+    <title>Image Example</title>
 </head>
 <body>
-    <a href="#" onclick="openModal('https://drive.google.com/file/d/1FfZcJJBopGfzg35DKsKcnSEffBTHqdQC/view?usp=sharing.jpg'); return false;">
-        <img src="thumbnail-link.jpg" alt="Thumbnail" />
-    </a>
-
-    <div id="imageModal" onclick="closeModal()">
-        <img id="modalImage" src="" alt="Full Image" />
-    </div>
-
-    <script>
-        function openModal(imageUrl) {
-            document.getElementById('modalImage').src = imageUrl;
-            document.getElementById('imageModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-    </script>
+    <h1>Here is the image:</h1>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSKk_LUJxMbliY6BYDSgzcCb3C4j7ag1w_jlDApo2rT6wAlaVAt" alt="Example Image" />
 </body>
 </html>
-
-
