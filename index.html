@@ -39,56 +39,45 @@
   </div>
 
   <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
+   const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
 
-    async function fetchBooks() {
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const books = await response.json();
-        console.log("Fetched books from API:", books);
-
-        const bookContainer = document.getElementById('book-container');
-        bookContainer.innerHTML = '';
-
-        books.forEach(async (book) => {
-          const bookDiv = document.createElement('div');
-          bookDiv.className = 'book';
-
-          let imageUrl = book.imageUrl; // Original image URL
-          let fallbackUrl = 'https://via.placeholder.com/200?text=Image+Not+Available'; // Fallback image URL
-
-          try {
-            // Attempt to fetch the image to ensure accessibility
-            const imageResponse = await fetch(imageUrl);
-            if (!imageResponse.ok) throw new Error('Image not accessible');
-          } catch (error) {
-            console.error(`Error fetching image for ${book.title}:`, error);
-            imageUrl = fallbackUrl; // Use fallback image if the original fails
-          }
-
-          bookDiv.innerHTML = `
-            <img src="${imageUrl}" alt="${book.title}">
-            <h3>${book.title}</h3>
-            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-          `;
-          bookContainer.appendChild(bookDiv);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
+async function fetchBooks() {
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
       }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    fetchBooks();
+    const books = await response.json();
+    console.log("Fetched books from API:", books);
+
+    const bookContainer = document.getElementById('book-container');
+    bookContainer.innerHTML = '';
+
+    books.forEach(book => {
+      const bookDiv = document.createElement('div');
+      bookDiv.className = 'book';
+      bookDiv.innerHTML = `
+        <img src="${book.imageUrl}" alt="${book.title}">
+        <h3>${book.title}</h3>
+        <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+      `;
+      bookContainer.appendChild(bookDiv);
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+fetchBooks();
+
   </script>
 </body>
 </html>
+
