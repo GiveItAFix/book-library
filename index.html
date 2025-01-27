@@ -55,7 +55,7 @@
         }
 
         const books = await response.json();
-        console.log("Fetched books from API:", books); // Debug: Log the full response
+        console.log("Fetched books from API:", books); // Debug: Log the full response// ${book.imageUrl}
 
         const bookContainer = document.getElementById('book-container');
         bookContainer.innerHTML = '';
@@ -66,7 +66,8 @@
           const bookDiv = document.createElement('div');
           bookDiv.className = 'book';
           bookDiv.innerHTML = `
-            <img src="${book.imageUrl}" alt="${book.title}" onerror="this.src='https://picsum.photos/150/150';">
+            <img src="https://drive.usercontent.google.com/download?id=1ROqkRsfn9AX_oxdzkozs6HiDY3-g5-Kw
+" alt="${book.title}" onerror="this.src='https://picsum.photos/150/150';">
             <h3>${book.title}</h3>
             <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
           `;
@@ -81,7 +82,5 @@
   </script>
 </body>
 </html>
-
-
 
 
