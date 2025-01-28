@@ -18,9 +18,9 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    canvas {
-      display: block;
-      margin: 0 auto 10px;
+    .book img {
+      max-width: 100%;
+      height: auto;
       border-radius: 5px;
     }
     .status {
@@ -39,72 +39,44 @@
   </div>
 
   <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
+   const apiUrl = 'https://script.google.com/macros/s/AKfycbzrDwCsaQD9lhC8UBGXbR2-b1BZtNcp_nhqYZsmr5AJwPSleInjA1_TXoVb_V7pQY4/exec'; // Replace with your Web App URL
 
-    async function fetchBooks() {
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const books = await response.json();
-        console.log("Fetched books from API:", books);
-
-        const bookContainer = document.getElementById('book-container');
-        bookContainer.innerHTML = '';
-
-        books.forEach(book => {
-          const bookDiv = document.createElement('div');
-          bookDiv.className = 'book';
-
-          // Create a canvas element for the book image
-          const canvas = document.createElement('canvas');
-          canvas.width = 200; // Set canvas width
-          canvas.height = 300; // Set canvas height
-
-          const ctx = canvas.getContext('2d');
-          const image = new Image();
-
-          // Add crossOrigin to avoid CORS issues
-          image.crossOrigin = 'anonymous';
-          image.src = book.imageUrl;
-
-          // Draw the image onto the canvas when it loads
-          image.onload = () => {
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-          };
-
-          // Fallback for error loading the image
-          image.onerror = () => {
-            ctx.fillStyle = '#ccc';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#000';
-            ctx.font = '16px Arial';
-            ctx.fillText('Image Not Available', 20, canvas.height / 2);
-          };
-
-          // Add the canvas and other details to the book div
-          bookDiv.appendChild(canvas);
-          bookDiv.innerHTML += `
-            <h3>${book.title}</h3>
-            <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
-          `;
-          bookContainer.appendChild(bookDiv);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
+async function fetchBooks() {
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
       }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    fetchBooks();
+    const books = await response.json();
+    console.log("Fetched books from API:", books);
+
+    const bookContainer = document.getElementById('book-container');
+    bookContainer.innerHTML = '';
+
+    books.forEach(book => {
+      const bookDiv = document.createElement('div');
+      bookDiv.className = 'book';
+      bookDiv.innerHTML = `
+        <img src="${book.imageUrl}" alt="${book.title}">
+        <h3>${book.title}</h3>
+        <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+      `;
+      bookContainer.appendChild(bookDiv);
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+fetchBooks();
+
   </script>
 </body>
 </html>
-
