@@ -8,10 +8,11 @@
     .book-container {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center; /* Center the book boxes */
       gap: 20px;
     }
     .book {
-      width: 200px;
+      width: 250px;
       text-align: center;
       border: 1px solid #ddd;
       padding: 10px;
@@ -19,8 +20,8 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     svg {
-      width: 200px;
-      height: 300px;
+      width: 150px;
+      height: 200px;
       border-radius: 5px;
       display: block;
       margin: 0 auto 10px;
@@ -31,6 +32,21 @@
     }
     .status.unavailable {
       color: red;
+    }
+    .button-container {
+      margin-top: 10px;
+    }
+    .button-container button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .button-container button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
@@ -68,16 +84,22 @@
 
           // Use SVG to display the image
           const svg = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
-              <rect width="150" height="150" fill="#ccc"></rect>
-              <image href="${book.imageUrl}" width="150" height="150" onerror="this.setAttribute('href', 'https://via.placeholder.com/200x300?text=No+Image')"></image>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 200">
+              <rect width="150" height="200" fill="#ccc"></rect>
+              <image href="${book.imageUrl}" width="150" height="200" onerror="this.setAttribute('href', 'https://via.placeholder.com/200x300?text=No+Image')"></image>
             </svg>
           `;
 
+          // Create book content
           bookDiv.innerHTML = `
             ${svg}
             <h3>${book.title}</h3>
+            <p>Author: ${book.author || "Unknown"}</p>
+            <p>ID: ${book.id || "N/A"}</p>
             <p class="status ${book.availability === 'Available' ? '' : 'unavailable'}">${book.availability}</p>
+            <div class="button-container">
+              <button onclick="window.open('${book.link || '#'}', '_blank')">View Details</button>
+            </div>
           `;
           bookContainer.appendChild(bookDiv);
         });
