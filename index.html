@@ -75,11 +75,15 @@
 
     async function fetchBooks() {
       try {
-        const response = await fetch(apiUrl, { method: 'GET' });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        // Use cached data to avoid redundant API calls
+        let books = JSON.parse(localStorage.getItem('books'));
         
-        const books = await response.json();
-        localStorage.setItem('books', JSON.stringify(books));
+        if (!books) {
+          const response = await fetch(apiUrl, { method: 'GET' });
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          books = await response.json();
+          localStorage.setItem('books', JSON.stringify(books)); // Cache response
+        }
 
         console.log("Fetched books:", books);
         renderBooks(books);
@@ -112,6 +116,7 @@
         bookContainer.appendChild(bookDiv);
       });
 
+      // Attach event listener to all buttons
       document.querySelectorAll('.button-container button').forEach(button => {
         button.addEventListener('click', (event) => {
           window.open(event.target.dataset.link, '_blank');
@@ -123,3 +128,4 @@
   </script>
 </body>
 </html>
+
