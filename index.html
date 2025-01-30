@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
       gap: 20px;
     }
     .book {
-      background-color: #000000;
+      background-color: #850A5C;
       width: 250px;
       text-align: center;
       border: 1px solid #ddd;
@@ -47,7 +47,7 @@
     }
     .button-container button {
       background-color: #007BFF;
-      color: white;
+      color: black;
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
@@ -78,7 +78,7 @@
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(HTTP error! status: ${response.status});
         }
 
         const books = await response.json();
@@ -92,15 +92,15 @@
           bookDiv.className = 'book';
 
           // Use SVG to display the image
-          const svg = `
+          const svg = 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
               <rect width="150" height="150" fill="#ccc"></rect>
               <image href="${book.imageUrl}" width="150" height="150" onerror="this.setAttribute('href', 'https://via.placeholder.com/200x300?text=No+Image')"></image>
             </svg>
-          `;
+          ;
 
           // Create book content
-          bookDiv.innerHTML = `
+          bookDiv.innerHTML = 
             ${svg}
             <h3>${book.title}</h3>
             <p>Author: ${book.author || "Unknown"}</p>
@@ -109,7 +109,7 @@
             <div class="button-container">
               <button onclick="window.open('${book.link || '#'}', '_blank')">Book</button>
             </div>
-          `;
+          ;
           bookContainer.appendChild(bookDiv);
         });
       } catch (error) {
